@@ -1,0 +1,77 @@
+{
+	"schemaVersion": "4",
+	"info": {
+		"name": "get-greeting"
+	},
+	"parameter": {
+		"properties": {
+			"request": {
+				"description": "The request"
+			},
+			"config": {
+				"type": "object",
+				"description": "The service's configuration"
+			},
+			"env": {
+				"type": "object",
+				"description": "The host OS environment"
+			}
+		},
+		"additionalProperties": false
+	},
+	"start": "javascript.1",
+	"nodes": {
+		"javascript.1": {
+			"type": "nodehandler://@axway/api-builder-plugin-fn-javascript/javascript",
+			"name": "Execute",
+			"method": "Execute",
+			"parameters": [
+				{
+					"name": "code",
+					"type": "string",
+					"value": "\"return {\\n    status: \\\"success\\\",\\n    message: `Hello ${data.request.query.name}. Your header value is ${data.request.headers[\\\"My-custom-header\\\"]}`\\n  };\""
+				},
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.result",
+					"routes": [
+						"http.1"
+					]
+				},
+				"error": {
+					"context": "$.error",
+					"routes": []
+				}
+			}
+		},
+		"http.1": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Set HTTP Response",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"type": "number",
+					"value": "200"
+				},
+				{
+					"name": "body",
+					"type": "jsonpath",
+					"value": "$.result"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"routes": []
+				}
+			}
+		}
+	}
+}

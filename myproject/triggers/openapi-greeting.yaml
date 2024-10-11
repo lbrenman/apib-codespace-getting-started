@@ -1,0 +1,12 @@
+triggers:
+  openapi-greeting-1:
+    name: get-greeting
+    parameters:
+      method: get-greeting
+    enabled: true
+    invoke:
+      flow: get-greeting
+      parameters:
+        request: $.request
+        config: $.config
+        env: $.env

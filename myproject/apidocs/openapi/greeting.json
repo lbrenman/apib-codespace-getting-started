@@ -1,0 +1,105 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0",
+    "title": "greeting",
+    "description": "Greeting API",
+    "termsOfService": "NA",
+    "contact": {
+      "name": "Leor Brenman",
+      "url": "https://github.com/lbrenman",
+      "email": "lbrenman99@hotmail.com"
+    },
+    "license": {
+      "url": "https://github.com/lbrenman",
+      "name": "NA"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Local"
+    }
+  ],
+  "paths": {
+    "/greeting": {
+      "get": {
+        "tags": [
+          "greeting"
+        ],
+        "summary": "Your GET endpoint",
+        "description": "Get a greeting based on name",
+        "operationId": "get-greeting",
+        "parameters": [
+          {
+            "name": "My-custom-header",
+            "in": "header",
+            "description": "A custom header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/greeting_response"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "success": "true",
+                      "message": "Hello Leor. Your header value is: 123456789"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "greeting"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "greeting_response": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "x-examples": {
+          "Example 1": {
+            "success": "true",
+            "message": "Hello Leor"
+          }
+        },
+        "x-tags": [
+          "greeting"
+        ]
+      }
+    }
+  }
+}
